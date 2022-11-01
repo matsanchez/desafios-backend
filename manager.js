@@ -4,7 +4,7 @@ class Manager {
   constructor(pathToFile) {
     this._pathToFile = pathToFile;
   }
-  save = async (product) => {
+  async save(product) {
     if (!product.title || !product.price) return { status: "error", message: "missing Fields" };
     try {
       if (fs.existsSync(this._pathToFile)) {
@@ -23,8 +23,8 @@ class Manager {
     } catch (error) {
       return { status: "error", message: error.message };
     }
-  };
-  getById = async (id) => {
+  }
+  async getById(id) {
     if (!id) return { status: "error", message: "Indique el Id por favor" };
     if (fs.existsSync(this._pathToFile)) {
       let data = await fs.promises.readFile(this._pathToFile, "utf-8");
@@ -33,19 +33,19 @@ class Manager {
       if (productId) return { status: "success", message: productId };
       return { status: "error", message: "Producto no Encontrado" };
     } else {
-      return { status: "error", message: err.message };
+      return { status: "error", message: "Ocurrio un error" };
     }
-  };
-  getAll = async () => {
+  }
+  async getAll() {
     if (fs.existsSync(this._pathToFile)) {
       let data = await fs.promises.readFile(this._pathToFile, "utf-8");
       let products = JSON.parse(data);
       return { status: "success", message: products };
     } else {
-      return { status: "error", message: err.message };
+      return { status: "error", message: "Ocurrio un error" };
     }
-  };
-  deleteById = async (id) => {
+  }
+  async deleteById(id) {
     if (!id) return { status: "error", message: "Indique el Id por favor" };
     if (fs.existsSync(this._pathToFile)) {
       let data = await fs.promises.readFile(this._pathToFile, "utf-8");
@@ -63,17 +63,17 @@ class Manager {
         return { status: "error", message: "No existe producto con ese ID" };
       }
     } else {
-      return { status: "error", message: err.message };
+      return { status: "error", message: "Ocurrio un error" };
     }
-  };
-  deleteAll = async () => {
+  }
+  async deleteAll() {
     if (fs.existsSync(this._pathToFile)) {
       await fs.promises.unlink(this._pathToFile);
       return { status: "Success", message: "Todos los productos fueron eliminados" };
     } else {
-      return { status: "error", message: err.message };
+      return { status: "error", message: "Ocurrio un error" };
     }
-  };
+  }
 }
 
 module.exports = Manager;
