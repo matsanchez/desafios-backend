@@ -3,7 +3,7 @@ const Manager = require("./manager.js");
 const express = require("express");
 const app = express();
 const PORT = 8000;
-const manager = new Manager();
+const manager = new Manager("products.txt");
 
 app.get("/", (req, res) => {
   const model = `
